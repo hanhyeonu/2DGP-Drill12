@@ -142,6 +142,27 @@ class Zombie:
             return BehaviorTree.RUNNING
 
 
+    def has_more_balls_than_boy(self):
+        if self.ball_count >= common.boy.ball_count:
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.FAIL
+
+
+    def flee_from_boy(self, r=0.5):
+        self.state = 'Walk'
+        # 소년의 반대 방향으로 이동
+        self.dir = math.atan2(self.y - common.boy.y, self.x - common.boy.x)
+        distance = RUN_SPEED_PPS * game_framework.frame_time
+        self.x += distance * math.cos(self.dir)
+        self.y += distance * math.sin(self.dir)
+        # 충분히 멀어졌는지 확인 (범위 7을 벗어났는지)
+        if not self.distance_less_than(common.boy.x, common.boy.y, self.x, self.y, 7):
+            return BehaviorTree.SUCCESS
+        else:
+            return BehaviorTree.RUNNING
+
+
     def get_patrol_location(self):
         # 여기를 채우시오.
         self.tx, self.ty = self.patrol_locations[self.loc_no]
