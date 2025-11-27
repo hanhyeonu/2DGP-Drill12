@@ -43,7 +43,7 @@ class Zombie:
         self.speed = 0.0
         self.frame = random.randint(0, 9)
         self.state = 'Idle'
-        self.ball_count = 0
+        self.ball_count = 6
 
 
         self.tx, self.ty = 1000, 1000
